@@ -2,7 +2,7 @@
 # Качайте приложение https://play.google.com/store/apps/details?id=com.DefaultCompany.RollBall - рекламная интеграция за 15 рублей, поддержите начинающего разработчика
 
 from os import read
-# А может import pandas? или import хотя бы Statistics ?    //  using System.Math;
+# А может import pandas? или import хотя бы Statistics ?  NO!  //  using System.Math;
 
 
 # переменная x везде означает выборку, это логичное имя, т.к. на бумаге тоже самое
@@ -52,7 +52,9 @@ class TukeyDiagram():   # Ну главное, чтобы не Turkey))
         dispersion /= (len(x) - 1)
         return dispersion
 
-    def median(self, x):    # from pandas import median
+    def median(self, x, sort = True):    # from pandas import median
+        if sort:
+            x = self.Bubble_Sort(x)
         if len(x) % 2 == 0:
             med = (x[len(x)//2 - 1] + x[len(x)//2]) / 2
         else:
@@ -64,8 +66,9 @@ class TukeyDiagram():   # Ну главное, чтобы не Turkey))
             x = self.Bubble_Sort(x)
         return x[-1] - x[0]
 
-    def Tukey(self, x):
-        x = self.Bubble_Sort(x)
+    def Tukey(self, x, sort = True):
+        if sort:
+            x = self.Bubble_Sort(x)
         if len(x) % 2 == 0:
             BottomBorderBox = x[len(x)//2 - len(x)//4]  # Нижняя/верхняя границы ящика
             TopBorderBox = x[len(x)//2 + len(x)//4 - 1]
@@ -86,15 +89,17 @@ class TukeyDiagram():   # Ну главное, чтобы не Turkey))
 # Of one mind of one soul, we unite to write our c0de
 def interview():
     Tukey = TukeyDiagram()
-    fileName = input("Введите имя файла с выборкой(!!!Десятичные дроби в файле должны быть записаны через точку!!!): ")
+    fileName = input("Введите имя файла с выборкой(!!!Десятичные дроби в файле должны быть записаны через точку, а выборка в столбик!!!): ")
     x = Tukey.readFile(fileName)
+    x = Tukey.Bubble_Sort(x)
     meanX = Tukey.mean(x)
     dispersionX = Tukey.dispersion(x)
-    medianX = Tukey.median(x)
+    medianX = Tukey.median(x, False)
     
     emissions, BottomBorderBox, TopBorderBox, H = Tukey.Tukey(x)
     print("Изначальная выборка:\n", x, "\n\nМат ожидание: ", meanX, "\nДисперсия: ", dispersionX, "\nМедиана: ", medianX,
-    "\n\n---Диаграмма Тьюки---\nВерхняя граница: ", TopBorderBox, "\nНижняя граница: ", BottomBorderBox, "\nВыбросы: ", emissions, sep='')
+    "\n\n---Диаграмма Тьюки---\nВерхняя граница ящика: ", TopBorderBox, "\nНижняя граница ящика: ", BottomBorderBox,
+    "\nГраница верхнего уса: ", TopBorderBox + 1.5*H, "\nГраница нижнего уса: ", BottomBorderBox - 1.5*H,  "\nВыбросы: ", emissions, sep='')
 
 if __name__ == "__main__":
     interview()
