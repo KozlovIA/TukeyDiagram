@@ -72,19 +72,19 @@ class TukeyDiagram():   # Ну главное, чтобы не Turkey))
         if len(x) % 2 == 0:
             BottomBorderBox = x[len(x)//2 - len(x)//4]  # Нижняя/верхняя границы ящика
             TopBorderBox = x[len(x)//2 + len(x)//4 - 1]
-            H = self.scatter([BottomBorderBox, TopBorderBox])  # H тоже обозначется на бумаге как H, поэтому это удобно
+            Height = self.scatter([BottomBorderBox, TopBorderBox])
         else:
             BottomBorderBox = x[len(x)//2 - len(x)//4]
             TopBorderBox = x[len(x)//2 + len(x)//4]
-            H = self.scatter([BottomBorderBox, TopBorderBox]) 
+            Height = self.scatter([BottomBorderBox, TopBorderBox]) 
         # Emissions
         #bottom border of the box
         #top border of the box
         emissions = []
         for i in range(len(x)):
-            if x[i] < BottomBorderBox - 1.5*H or x[i] > TopBorderBox + 1.5*H:
+            if x[i] < BottomBorderBox - 1.5*Height or x[i] > TopBorderBox + 1.5*Height:
                 emissions.append(x[i])
-        return emissions, BottomBorderBox, TopBorderBox, H
+        return emissions, BottomBorderBox, TopBorderBox, Height
 
 # Of one mind of one soul, we unite to write our c0de
 def interview():
@@ -96,10 +96,10 @@ def interview():
     dispersionX = Tukey.dispersion(x)
     medianX = Tukey.median(x, False)
     
-    emissions, BottomBorderBox, TopBorderBox, H = Tukey.Tukey(x)
+    emissions, BottomBorderBox, TopBorderBox, Height = Tukey.Tukey(x)
     print("Изначальная выборка:\n", x, "\n\nМат ожидание: ", meanX, "\nДисперсия: ", dispersionX, "\nМедиана: ", medianX,
     "\n\n---Диаграмма Тьюки---\nВерхняя граница ящика: ", TopBorderBox, "\nНижняя граница ящика: ", BottomBorderBox,
-    "\nГраница верхнего уса: ", TopBorderBox + 1.5*H, "\nГраница нижнего уса: ", BottomBorderBox - 1.5*H,  "\nВыбросы: ", emissions, sep='')
+    "\nГраница верхнего уса: ", TopBorderBox + 1.5*Height, "\nГраница нижнего уса: ", BottomBorderBox - 1.5*Height,  "\nВыбросы: ", emissions, sep='')
 
 if __name__ == "__main__":
     interview()
